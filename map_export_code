@@ -1,0 +1,39 @@
+## This script creates selects a zoom layer, legend, color ramp, and title for a shapefile and exports a jpg##
+## Inputs: shapefiles ##
+## Output: jpegs ##
+## Amended by Clay Grubb, 3 May 2018, from:
+## Author Adam D. Griffith and Alexander Hohl, 1 FEB 2018.  adamdgriffith@gmail.com ##
+
+
+#import arcpy
+import arcpy
+
+#set environments
+arcpy.env.workspace = "D:\data"
+arcpy.env.overwriteOutput = True
+
+#set paths
+imageFolder = "images"
+mxdPath = "Skyglow.mxd"
+
+#define mxd, data frame and layer list
+mxd = arcpy.mapping.MapDocument(mxdPath)
+df = arcpy.mapping.ListDataFrames(mxd)[0]
+lyrlist = arcpy.mapping.ListLayers(mxd, "", df)
+
+#for each layer (for each year)
+for lyr in lyrlist:
+
+    print lyr.name
+
+    #turn it on
+    lyr.visible = True
+
+    #get list of layout elements, set titleto layer name (year)
+    year_text = arcpy.mapping.ListLayoutElements (mxd, XXX)
+    year_text[XXX].text = lyr.name
+
+    #export and turn off layer
+    arcpy.mapping.ExportToJPEG(mxd, imageFolder + "\\" + str(lyr.name) + ".jpg")    
+    lyr.visible = False
+
